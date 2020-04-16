@@ -1,0 +1,10 @@
+*venv
+*idea
+*pyc
+Dockerfile
+README.md
+*.pyo
+*.pyd
+__pycache__
+.pytest_cache
+.vscode

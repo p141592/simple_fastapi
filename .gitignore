@@ -1,0 +1,10 @@
+*.pyc
+*idea
+*venv
+.DS_Store
+requirements.pip
+.vscode
+*.pyo
+*.pyd
+__pycache__
+.pytest_cache
