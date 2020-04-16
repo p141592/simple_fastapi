@@ -18,5 +18,4 @@ WORKDIR /opt/application/
 ENV PYTHONPATH /usr/local/lib/python3.7/site-packages
 ENV PYTHONPATH /opt/application/
 
-CMD entrypoint.sh
-
+CMD python -m project

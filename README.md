@@ -1,7 +1,7 @@
-# Python projects template
+# Simple FastAPI project
 
-[![asciicast](https://asciinema.org/a/298747.svg)](https://asciinema.org/a/298747)
+Пример проекта на [fastapi](https://github.com/tiangolo/fastapi)
 
-### Run
-
-`$ make gcloud-deploy`
+gino + sqlalchemy
+alembic
+poetry

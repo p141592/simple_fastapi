@@ -2,25 +2,18 @@
 DOCKER_REGISTRY = gcr.io/${GCLOUD-PROJECT-ID}
 PORTS = 8080:8080
 TAG = latest
-PROJECT_NAME = basic-python
+PROJECT_NAME = simple-fastapi
 GCLOUD-PROJECT-ID = home-260209
 ENV = dev
 MEMORY_LIMIT = 50M
 ENV_VARIABLES = $(shell ./utils/convert_env.py $(shell pwd)/.env)
 
-# local
-unpack: activate
-	poetry install 
-
-activate: venv 
+activate: 
 	pip install --user poetry
-	poetry env use venv/bin/python
-
-venv:
-	python -m venv venv
+	poetry install
 
 test:
-	pytest -vv ${TEST_CASE}
+	poetry run pytest -vv ${TEST_CASE}
 
 lock:
 	poetry lock 
@@ -32,8 +25,8 @@ freez: lock
 build: test freez
 	docker build -t ${DOCKER_REGISTRY}/${PROJECT_NAME}:${TAG} .
 
-run: build
-	docker run -it -p ${PORTS} --rm --env-file .env ${DOCKER_REGISTRY}/${PROJECT_NAME}:${TAG}
+run: activate
+	poetry run project
 
 push: build
 	docker push ${DOCKER_REGISTRY}/${PROJECT_NAME}:${TAG}
