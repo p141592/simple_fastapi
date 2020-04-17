@@ -9,8 +9,7 @@ RUN pip install --no-cache-dir -r /requirements.pip
 FROM python:3.7-slim as project
 COPY --from=build-env /usr/local/lib/python3.7/site-packages /usr/local/lib/python3.7/site-packages
 
-COPY ./src /opt/application/
-COPY entrypoint.sh /opt/application/
+COPY ./project /opt/application/
 ENV PATH /opt/application/:$PATH
 
 WORKDIR /opt/application/

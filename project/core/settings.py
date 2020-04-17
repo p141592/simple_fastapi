@@ -25,7 +25,7 @@ class RunSettings(BaseSettings):
 
 
 config = Config(".env")
-
+TESTING = config("TESTING", cast=bool, default=False)
 BASEDIR = str(Path(".").absolute().parent.parent)
 SECRET = config("SECRET", default="fake")
 MEDIA_PATH = config("MEDIA_PATH", default=Path(BASEDIR) / "media")
@@ -36,6 +36,8 @@ DB_PORT = config("DB_PORT", cast=int, default=5432)
 DB_USER = config("DB_USER", default="postgres")
 DB_PASSWORD = config("DB_PASSWORD", cast=Secret, default="postgres")
 DB_NAME = config("DB_NAME", default=None)
+if TESTING:
+    DB_NAME += "_test"
 DB_DSN = config(
     "DB_DSN",
     cast=make_url,
