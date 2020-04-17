@@ -15,14 +15,6 @@ develop = ["asynctest (>=0.12.2,<0.13.0)", "coverage (!=4.3)", "coveralls", "pyl
 
 [[package]]
 category = "main"
-description = "Asyncio support for PEP-567 contextvars backport."
-name = "aiocontextvars"
-optional = false
-python-versions = ">=3.5"
-version = "0.2.2"
-
-[[package]]
-category = "main"
 description = "File support for asyncio."
 name = "aiofiles"
 optional = false
@@ -266,13 +258,33 @@ category = "main"
 description = "GINO Is Not ORM - a Python asyncio ORM on SQLAlchemy core."
 name = "gino"
 optional = false
-python-versions = ">=3.5"
-version = "0.8.6"
+python-versions = ">=3.5,<4.0"
+version = "1.0.0rc4"
 
 [package.dependencies]
 SQLAlchemy = ">=1.2,<2.0"
-aiocontextvars = ">=0.2,<1.0"
 asyncpg = ">=0.18,<1.0"
+
+[package.dependencies.gino-starlette]
+optional = true
+python = ">=3.6,<4.0"
+version = ">=0.1.1,<0.2.0"
+
+[package.extras]
+starlette = ["gino-starlette (>=0.1.1,<0.2.0)"]
+
+[[package]]
+category = "main"
+description = "An extension for GINO to integrate with Starlette"
+marker = "python_version >= \"3.6\" and python_version < \"4.0\""
+name = "gino-starlette"
+optional = false
+python-versions = ">=3.6,<4.0"
+version = "0.1.1"
+
+[package.dependencies]
+gino = ">=1.0.0rc2,<2.0.0"
+starlette = ">=0.13.0,<0.14.0"
 
 [[package]]
 category = "main"
@@ -942,17 +954,13 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-content-hash = "430a9fb261b57d35b5f3936d21a404e8f996fdcf62d4d4e6edf863913b958a5c"
+content-hash = "fc28cf6e78d32e267da542397282a3472a2f212bca07230a0b89a0c5334f95c7"
 python-versions = "^3.8"
 
 [metadata.files]
 aio-pika = [
     {file = "aio-pika-6.6.0.tar.gz", hash = "sha256:c9d242b3c7142d64b185feb6c5cce4154962610e89ec2e9b52bd69ef01f89b2f"},
     {file = "aio_pika-6.6.0-py3-none-any.whl", hash = "sha256:9e4614636296e0040055bd6b304e97a38cc9796669ef391fc9b36649831d43ee"},
-]
-aiocontextvars = [
-    {file = "aiocontextvars-0.2.2-py2.py3-none-any.whl", hash = "sha256:885daf8261818767d8f7cbd79f9d4482d118f024b6586ef6e67980236a27bfa3"},
-    {file = "aiocontextvars-0.2.2.tar.gz", hash = "sha256:f027372dc48641f683c559f247bd84962becaacdc9ba711d583c3871fb5652aa"},
 ]
 aiofiles = [
     {file = "aiofiles-0.4.0-py3-none-any.whl", hash = "sha256:1e644c2573f953664368de28d2aa4c89dfd64550429d0c27c4680ccd3aa4985d"},
@@ -1062,8 +1070,12 @@ futures = [
     {file = "futures-3.1.1.tar.gz", hash = "sha256:51ecb45f0add83c806c68e4b06106f90db260585b25ef2abfcda0bd95c0132fd"},
 ]
 gino = [
-    {file = "gino-0.8.6-py3-none-any.whl", hash = "sha256:1727e4d1e19571e99dd72cd558e94d93f883f8b0aade207450924639578f2120"},
-    {file = "gino-0.8.6.tar.gz", hash = "sha256:5c4b70783198c89c138a49c2921ecea894003de54d02c7bc3542e45d506d198b"},
+    {file = "gino-1.0.0rc4-py3-none-any.whl", hash = "sha256:ce87a865d402547a9bc498e5301d56d97bec8a1d96e30d40059873557736901f"},
+    {file = "gino-1.0.0rc4.tar.gz", hash = "sha256:1a3ef763218b0b1041cb6c01958a901dcf90d438b37377af0a78a279870b0ec1"},
+]
+gino-starlette = [
+    {file = "gino-starlette-0.1.1.tar.gz", hash = "sha256:a1afe419b34146449a502a5483085a60a75a46639534fff50510172b47c930fb"},
+    {file = "gino_starlette-0.1.1-py3-none-any.whl", hash = "sha256:de6ec87168097a52668359c842e9e3be4d339423c7805c615377975a1a19cb6c"},
 ]
 h11 = [
     {file = "h11-0.9.0-py2.py3-none-any.whl", hash = "sha256:4bc6d6a1238b7615b266ada57e0618568066f57dd6fa967d1290ec9309b2f2f1"},

@@ -7,6 +7,7 @@ from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent.absolute()
 
+
 def convert(filename):
     result = {}
     r = re.compile(r"^[\w]*=.*")
@@ -15,6 +16,7 @@ def convert(filename):
             key, value = line.strip().split('=')
             result[key] = value
     return ','.join([f'{key}="{value}"' for key, value in result.items()])
+
 
 if __name__ == '__main__':
     _env = Path(sys.argv[1] or BASE_DIR.joinpath('.env'))

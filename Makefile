@@ -25,8 +25,8 @@ freez: lock
 build: test freez
 	docker build -t ${DOCKER_REGISTRY}/${PROJECT_NAME}:${TAG} .
 
-run: activate
-	poetry run project
+run:
+	poetry run uvicorn project.asgi:app --reload
 
 push: build
 	docker push ${DOCKER_REGISTRY}/${PROJECT_NAME}:${TAG}

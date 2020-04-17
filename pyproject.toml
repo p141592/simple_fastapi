@@ -23,7 +23,7 @@ pytils = "^0.3"
 pytz = "^2019.3"
 Pillow = "^7.1.1"
 lxml = "^4.5.0"
-gino = "^0.8.6"
+gino = {version = "^1.0rc4", extras = ["starlette"], allow-prereleases = true}
 alembic = "^1.4.2"
 sqlalchemy-utils = "^0.36.3"
 psycopg2-binary = "^2.8.5"

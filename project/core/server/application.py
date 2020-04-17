@@ -1,3 +1,4 @@
+import logging
 from asyncio import get_event_loop
 
 import uvicorn
@@ -6,7 +7,9 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 
-from project.core.settings import RunSettings, AppSettings
+from core import settings
+
+logger = logging.getLogger(__name__)
 
 
 class Application(FastAPI):
@@ -17,22 +20,17 @@ class Application(FastAPI):
         "http://localhost:8000",
     ]
 
-    def __new__(cls):
-        if not cls.__instance:
-            cls.__instance = super().__new__(cls)
-        return cls.__instance
-
     def __init__(self):
         """Инициализация приложения компонентами"""
-        super(Application, self).__init__(**AppSettings().dict())
+        super(Application, self).__init__(**settings.AppSettings().dict())
 
         self.mount(
             "/static",
-            StaticFiles(directory=self.extra.get("static_path")),
+            StaticFiles(directory=settings.STATIC_PATH),
             name="static",
         )
         self.mount(
-            "/media", StaticFiles(directory=self.extra.get("media_path")), name="media"
+            "/media", StaticFiles(directory=settings.MEDIA_PATH), name="media"
         )
 
         self.add_middleware(
@@ -52,8 +50,9 @@ class Application(FastAPI):
         При вызове пакета, python ищет файл __main__.py, в __main__.py вызывается этот метод для
         упращения процедуры запуска
         """
-        uvicorn.run("project.core.server:app", **RunSettings().dict())
+        uvicorn.run("project.asgi:app", **settings.RunSettings().dict())
 
     @property
     def loop(self):
         return get_event_loop()
+
