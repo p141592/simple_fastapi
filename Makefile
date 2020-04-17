@@ -25,6 +25,12 @@ freez: lock
 build: test freez
 	docker build -t ${DOCKER_REGISTRY}/${PROJECT_NAME}:${TAG} .
 
+makemigrations:
+	poetry run alembic revision --autogenerate
+
+migrate:
+	poetry run alembic upgrade head
+
 run:
 	poetry run uvicorn project.asgi:app --reload
 
