@@ -569,6 +569,17 @@ dev = ["pre-commit", "tox"]
 
 [[package]]
 category = "main"
+description = "Python client for the Prometheus monitoring system."
+name = "prometheus-client"
+optional = false
+python-versions = "*"
+version = "0.7.1"
+
+[package.extras]
+twisted = ["twisted"]
+
+[[package]]
+category = "main"
 description = "Library for building powerful interactive command lines in Python"
 name = "prompt-toolkit"
 optional = false
@@ -841,6 +852,18 @@ version = "0.13.2"
 full = ["aiofiles", "graphene", "itsdangerous", "jinja2", "python-multipart", "pyyaml", "requests", "ujson"]
 
 [[package]]
+category = "main"
+description = "Prometheus integration for Starlette"
+name = "starlette-prometheus"
+optional = false
+python-versions = ">=3.6,<4.0"
+version = "0.6.0"
+
+[package.dependencies]
+prometheus_client = ">=0.7,<0.8"
+starlette = ">=0.12.2"
+
+[[package]]
 category = "dev"
 description = "Python Library for Tom's Obvious, Minimal Language"
 name = "toml"
@@ -954,7 +977,7 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-content-hash = "fc28cf6e78d32e267da542397282a3472a2f212bca07230a0b89a0c5334f95c7"
+content-hash = "5e1493f365e255a8d464a5b2af183a054cc33200ea5f90c254bb2b1fb36f99f0"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -1337,6 +1360,9 @@ pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
 ]
+prometheus-client = [
+    {file = "prometheus_client-0.7.1.tar.gz", hash = "sha256:71cd24a2b3eb335cb800c7159f423df1bd4dcd5171b234be15e3f31ec9f622da"},
+]
 prompt-toolkit = [
     {file = "prompt_toolkit-3.0.5-py3-none-any.whl", hash = "sha256:df7e9e63aea609b1da3a65641ceaf5bc7d05e0a04de5bd45d05dbeffbabf9e04"},
     {file = "prompt_toolkit-3.0.5.tar.gz", hash = "sha256:563d1a4140b63ff9dd587bda9557cffb2fe73650205ab6f4383092fb882e7dc8"},
@@ -1559,6 +1585,10 @@ sqlalchemy-utils = [
 starlette = [
     {file = "starlette-0.13.2-py3-none-any.whl", hash = "sha256:6169ee78ded501095d1dda7b141a1dc9f9934d37ad23196e180150ace2c6449b"},
     {file = "starlette-0.13.2.tar.gz", hash = "sha256:a9bb130fa7aa736eda8a814b6ceb85ccf7a209ed53843d0d61e246b380afa10f"},
+]
+starlette-prometheus = [
+    {file = "starlette-prometheus-0.6.0.tar.gz", hash = "sha256:88e8c143f8d557b3a9c8885a1fd9ce649ce16e8453aac537f8551409aac92f4a"},
+    {file = "starlette_prometheus-0.6.0-py3-none-any.whl", hash = "sha256:dc3ab5bf2e22c49d6ec55f2e81192bfbd316d6353187cc2c92ea49f04e41fc25"},
 ]
 toml = [
     {file = "toml-0.10.0-py2.7.egg", hash = "sha256:f1db651f9657708513243e61e6cc67d101a39bad662eaa9b5546f789338e07a3"},

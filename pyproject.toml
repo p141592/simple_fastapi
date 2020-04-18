@@ -27,6 +27,7 @@ gino = {version = "^1.0rc4", extras = ["starlette"], allow-prereleases = true}
 alembic = "^1.4.2"
 sqlalchemy-utils = "^0.36.3"
 psycopg2-binary = "^2.8.5"
+starlette-prometheus = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.4.4"

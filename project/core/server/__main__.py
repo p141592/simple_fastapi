@@ -1,4 +1,6 @@
-from core import app
+import uvicorn
+
+from core.server import settings
 
 if __name__ == '__main__':
-    app().run()
+    uvicorn.run("project.asgi:app", **settings.RunSettings().dict())

@@ -1,58 +1,33 @@
-import logging
-from asyncio import get_event_loop
-
-import uvicorn
-from fastapi import FastAPI
-
+from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
+from starlette.routing import Route
 from starlette.staticfiles import StaticFiles
+from starlette_prometheus import PrometheusMiddleware
 
-from core import settings
+from core.server import settings
 
-logger = logging.getLogger(__name__)
+from apps.access.routes import access
 
+ORIGINS = [
+    "http://localhost",
+    "http://localhost:8000",
+]
 
-class Application(FastAPI):
-    __instance = None
+MIDDLEWARES = (
+    Middleware(PrometheusMiddleware),
+    Middleware(CORSMiddleware,
+               allow_origins=ORIGINS,
+               allow_credentials=True,
+               allow_methods=["*"],
+               allow_headers=["*"]
+    ),
+)
 
-    ORIGINS = [
-        "http://localhost",
-        "http://localhost:8000",
-    ]
+MOUNTS = (
+    ("/static", StaticFiles(directory=settings.STATIC_PATH), dict(name="static")),
+    ("/media", StaticFiles(directory=settings.MEDIA_PATH), dict(name="media")),
+)
 
-    def __init__(self):
-        """Инициализация приложения компонентами"""
-        super(Application, self).__init__(**settings.AppSettings().dict())
-
-        self.mount(
-            "/static",
-            StaticFiles(directory=settings.STATIC_PATH),
-            name="static",
-        )
-        self.mount(
-            "/media", StaticFiles(directory=settings.MEDIA_PATH), name="media"
-        )
-
-        self.add_middleware(
-            CORSMiddleware,
-            allow_origins=self.ORIGINS,
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-        )
-
-    @classmethod
-    def run(cls, *args, **kwargs):
-        """Вызывается для локального запуска
-        Для локального запуска достаточно выполнить в корне проекта: `poetry run python -m project`
-
-        Работает это следующим образом:
-        При вызове пакета, python ищет файл __main__.py, в __main__.py вызывается этот метод для
-        упращения процедуры запуска
-        """
-        uvicorn.run("project.asgi:app", **settings.RunSettings().dict())
-
-    @property
-    def loop(self):
-        return get_event_loop()
-
+ROUTES = (
+    Route('/api/access', access),
+)

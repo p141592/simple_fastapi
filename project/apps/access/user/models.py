@@ -1,12 +1,10 @@
-import uuid
-
-from sqlalchemy.dialects.postgresql import UUID
-
 from core.server.db import db
+from . import app_name
 
 
 class User(db.Model):
     """Модель для управления пользователями."""
-    __tablename__ = 'user'
+    __tablename__ = f'{app_name}.user'
 
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
+    id = db.Column(db.BigInteger(), primary_key=True)
+    name = db.Column(db.Unicode(), default="unnamed")

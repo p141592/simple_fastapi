@@ -1,5 +1,7 @@
-from .user.views import router as user
+from fastapi import APIRouter
 
-routes = (
-    (user, dict(prefix="/access/user", tags=["access"])),
-)
+from apps.access.user.views import v1
+
+access = APIRouter()
+
+access.include_router(v1, prefix='/user/v1', tags=['user'])
