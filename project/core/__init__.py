@@ -8,7 +8,6 @@ from core.server.db import db
 from core.server.routes import apps
 from core.server.settings import SENTRY_DSN
 from core.service import service_route
-from core.utils.routes import init_routes
 
 _app = None
 

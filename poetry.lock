@@ -265,18 +265,12 @@ version = "1.0.0rc4"
 SQLAlchemy = ">=1.2,<2.0"
 asyncpg = ">=0.18,<1.0"
 
-[package.dependencies.gino-starlette]
-optional = true
-python = ">=3.6,<4.0"
-version = ">=0.1.1,<0.2.0"
-
 [package.extras]
 starlette = ["gino-starlette (>=0.1.1,<0.2.0)"]
 
 [[package]]
 category = "main"
 description = "An extension for GINO to integrate with Starlette"
-marker = "python_version >= \"3.6\" and python_version < \"4.0\""
 name = "gino-starlette"
 optional = false
 python-versions = ">=3.6,<4.0"
@@ -1003,7 +997,7 @@ idna = ">=2.0"
 multidict = ">=4.0"
 
 [metadata]
-content-hash = "f667dc84fcc4d3941dcc3b419090e506ff92c3e73d38f17bb893f9ad4a0d5bc9"
+content-hash = "e7da72654650ece3647d5d57b6deb21c882e152ecf82d5c26b5fa6744368a2f4"
 python-versions = "^3.8"
 
 [metadata.files]
