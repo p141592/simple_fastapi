@@ -25,19 +25,17 @@ class RunSettings(BaseSettings):
 
 
 config = Config(".env")
+
 TESTING = config("TESTING", cast=bool, default=False)
-BASEDIR = str(Path(".").absolute().parent.parent)
 SECRET = config("SECRET", default="fake")
-MEDIA_PATH = config("MEDIA_PATH", default=Path(BASEDIR) / "media")
-STATIC_PATH = config("STATIC_PATH", default=Path(BASEDIR) / "static")
+MEDIA_PATH = config("MEDIA_PATH", default=str(Path(__file__).parent.absolute() / "media"))
+STATIC_PATH = config("STATIC_PATH", default=str(Path(__file__).parent.absolute() / "static"))
 DB_DRIVER = config("DB_DRIVER", default="postgresql")
 DB_HOST = config("DB_HOST", default="localhost")
 DB_PORT = config("DB_PORT", cast=int, default=5432)
 DB_USER = config("DB_USER", default="postgres")
 DB_PASSWORD = config("DB_PASSWORD", cast=Secret, default="postgres")
 DB_NAME = config("DB_NAME", default=None)
-if TESTING:
-    DB_NAME += "_test"
 DB_DSN = config(
     "DB_DSN",
     cast=make_url,
@@ -59,3 +57,5 @@ DB_USE_CONNECTION_FOR_REQUEST = config(
 )
 DB_RETRY_LIMIT = config("DB_RETRY_LIMIT", cast=int, default=1)
 DB_RETRY_INTERVAL = config("DB_RETRY_INTERVAL", cast=int, default=1)
+
+SENTRY_DSN = config("SENTRY_DSN", default=None)
