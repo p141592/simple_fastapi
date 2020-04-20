@@ -13,7 +13,7 @@ activate:
 	poetry install --no-root
 
 test:
-	poetry run pytest -vv ${TEST_CASE}
+	PYTHONPATH=$(shell pwd)/project poetry run pytest -vv ${TEST_CASE}
 
 lock:
 	poetry lock 
@@ -26,10 +26,10 @@ build: test freez
 	docker build -t ${DOCKER_REGISTRY}/${PROJECT_NAME}:${TAG} .
 
 makemigrations:
-	poetry run alembic revision --autogenerate
+	PYTHONPATH=$(shell pwd)/project poetry run alembic revision --autogenerate
 
 migrate:
-	poetry run alembic upgrade head
+	PYTHONPATH=$(shell pwd)/project poetry run alembic upgrade head
 
 run:
 	PYTHONPATH=$(shell pwd)/project poetry run uvicorn project.asgi:app --reload
