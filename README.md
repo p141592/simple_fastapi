@@ -2,6 +2,11 @@
 
 Пример проекта на [fastapi](https://github.com/tiangolo/fastapi)
 
+**Для работы требуется Python 3.8. Достаточно его просто установить в систему, при запуске poetry сам найдет 
+исполняемый файл**
+
+https://www.python.org/downloads/release/python-382/ или `apt install python3.8`
+
 Стек:
 
 - [fastapi](https://github.com/tiangolo/fastapi)
