@@ -24,7 +24,7 @@ def get_app():
         _app.include_router(apps)
 
         if SENTRY_DSN:
-            sentry_sdk.init(dsn="https://<key>@<organization>.ingest.sentry.io/<project>")
+            sentry_sdk.init(dsn=SENTRY_DSN)
             _app.add_middleware(SentryAsgiMiddleware)
         for _mount in MOUNTS:
             _app.mount(*_mount)
