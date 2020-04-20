@@ -3,12 +3,13 @@ from alembic.config import main
 from starlette.config import environ
 from starlette.testclient import TestClient
 
-environ["TESTING"] = True
+environ["TESTING"] = "1"
 
 
 @pytest.fixture
 def client():
-    from project.core import db, get_app
+    from core import get_app
+    from core.server.db import db
 
     main(["--raiseerr", "upgrade", "head"])
 

@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 
 from core.server import settings
-from core.server.application import MIDDLEWARES
+from core.server.application import MIDDLEWARES, MOUNTS
 from core.server.db import db
 from core.server.routes import apps
 from core.server.settings import SENTRY_DSN
@@ -26,6 +26,7 @@ def get_app():
         if SENTRY_DSN:
             sentry_sdk.init(dsn="https://<key>@<organization>.ingest.sentry.io/<project>")
             _app.add_middleware(SentryAsgiMiddleware)
-
+        for _mount in MOUNTS:
+            _app.mount(*_mount)
         db.init_app(_app)
     return _app
