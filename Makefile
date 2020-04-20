@@ -10,7 +10,7 @@ ENV_VARIABLES = $(shell ./utils/convert_env.py $(shell pwd)/.env)
 
 activate: 
 	pip install --user poetry
-	poetry install
+	poetry install --no-root
 
 test:
 	poetry run pytest -vv ${TEST_CASE}
@@ -32,7 +32,7 @@ migrate:
 	poetry run alembic upgrade head
 
 run:
-	poetry run uvicorn project.asgi:app --reload
+	PYTHONPATH=$(shell pwd)/project poetry run uvicorn project.asgi:app --reload
 
 push: build
 	docker push ${DOCKER_REGISTRY}/${PROJECT_NAME}:${TAG}

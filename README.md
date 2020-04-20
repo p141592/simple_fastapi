@@ -7,6 +7,8 @@
 
 https://www.python.org/downloads/release/python-382/ или `apt install python3.8`
 
+![](docs/index.png)
+
 Стек:
 
 - [fastapi](https://github.com/tiangolo/fastapi)
@@ -32,3 +34,12 @@ TODO:
 Запуск: `make activate && make run`
 
 Миграции: `make makemigrations`, `make migrate`
+
+
+
+## FAQ
+
+Ошибка: `asyncpg.exceptions.InvalidCatalogNameError: database "gino" does not exist`
+
+Не создана база `gino`. Это база, указанная по умолчанию в проекте. 
+Все настройки проекта меняются в файле `project/server/settings.py`, так же в файле `.env` в корне проекта
