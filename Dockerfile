@@ -1,20 +1,16 @@
-FROM python:3.7 AS build-env
-
-COPY requirements.pip .
-
-RUN pip install --upgrade pip
-RUN pip install --no-cache-dir -r /requirements.pip
-
-# Собираю инстанс самого проекта
-FROM python:3.7-slim as project
-COPY --from=build-env /usr/local/lib/python3.7/site-packages /usr/local/lib/python3.7/site-packages
-
-COPY ./project /opt/application/
+FROM python:3.8
+ENV PYTHONPATH /opt/application/
 ENV PATH /opt/application/:$PATH
 
 WORKDIR /opt/application/
 
-ENV PYTHONPATH /usr/local/lib/python3.7/site-packages
-ENV PYTHONPATH /opt/application/
+RUN pip install --upgrade pip
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
+COPY poetry.lock .
+COPY pyproject.toml  .
+RUN poetry install --no-dev --no-root
 
-CMD python -m project
+COPY project /opt/application/
+
+CMD poetry run server
