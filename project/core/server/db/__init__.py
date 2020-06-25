@@ -1,6 +1,6 @@
 from gino_starlette import Gino
 
-from core.server import settings
+from core.settings import settings
 
 db = Gino(
     dsn=settings.DB_DSN,

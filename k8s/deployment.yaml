@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: simple-fastapi
+  name: simple-fastapi
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-fastapi
+  template:
+    metadata:
+      labels:
+        app: simple-fastapi
+    spec:
+      serviceAccountName: simple-fastapi-account
+      containers:
+      - name: simple-fastapi
+        image: <container_image>
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "1500m"
+        env:
+        - name: SOME
+          value: "0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-fastapi
+  namespace: default
+  labels:
+    app: simple-fastapi
+spec:
+  selector:
+    app: simple-fastapi
+  ports:
+    - protocol: TCP
+      targetPort: 8000
+      port: 80
+      nodePort: null
+  type: LoadBalancer

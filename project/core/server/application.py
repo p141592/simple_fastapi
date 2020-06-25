@@ -3,7 +3,7 @@ from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
 from starlette_prometheus import PrometheusMiddleware
 
-from core.server import settings
+from core import settings
 
 ORIGINS = [
     "http://localhost",
