@@ -7,8 +7,8 @@ from alembic import context
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-from core import db
-from core.settings import DB_DSN
+from core.server.db import db
+from core.settings import settings
 
 config = context.config
 
@@ -21,7 +21,7 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
-config.set_main_option("sqlalchemy.url", str(DB_DSN))
+config.set_main_option("sqlalchemy.url", settings.DB_DSN)
 target_metadata = db
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -67,9 +67,7 @@ def run_migrations_online():
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

@@ -1,12 +1,11 @@
 import os
 from pathlib import Path
 
-from pydantic import BaseSettings
-from sqlalchemy.engine.url import make_url, URL
-from starlette.config import Config
-from starlette.datastructures import Secret
+from pydantic import BaseSettings, SecretStr, DirectoryPath
 
 BASE_DIR = Path(__file__).parent.parent
+
+e = os.environ.get
 
 
 def get_env_path():
@@ -35,6 +34,9 @@ class RunSettings(BaseSettings):
     port: int = int(e("PORT", 8000))
     log_level: str = "debug"
 
+    class Config:
+        env_file = get_env_path()
+
 
 class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
@@ -45,9 +47,16 @@ class Settings(BaseSettings):
     SENTRY_DSN: str = None
     DB_PASSWORD: SecretStr = "postgres"
     DB_DSN: str = f"postgresql://postgres:{DB_PASSWORD}@localhost:5432/postgres"
+    DB_POOL_MIN_SIZE: int = 1
+    DB_POOL_MAX_SIZE: int = 16
+    DB_ECHO: bool = True
+    DB_SSL: str = None
+    DB_USE_CONNECTION_FOR_REQUEST: bool = True
+    DB_RETRY_LIMIT: int = 1
+    DB_RETRY_INTERVAL: int = 1
     TEMPLATES_DIR: DirectoryPath = BASE_DIR / "templates"
-    MEDIA_PATH: DirectoryPath = Path(__file__).parent.absolute() / "media"
-    STATIC_PATH: DirectoryPath = Path(__file__).parent.absolute() / "static"
+    MEDIA_PATH: DirectoryPath = BASE_DIR / "media"
+    STATIC_PATH: DirectoryPath = BASE_DIR / "static"
 
     class Config:
         env_file = get_env_path()

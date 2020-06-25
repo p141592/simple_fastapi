@@ -48,6 +48,9 @@ run:
 push: build
 	docker push ${IMG}:${TAG}
 
+apply: push
+	echo kubectl patch deployment patch-demo --patch '{"spec": {"template": {"spec": {"containers": [{"name": "simple-fastapi","image": "${IMG}:${TAG}"}]}}}}'
+
 # deploy
 gcloud-deploy: push
 	gcloud run deploy ${PROJECT_NAME} --image ${IMG}:${TAG} --memory ${MEMORY_LIMIT} --platform managed --set-env-vars ${ENV_VARIABLES}

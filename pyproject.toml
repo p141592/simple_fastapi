@@ -30,6 +30,8 @@ sqlalchemy-utils = "^0.36.3"
 psycopg2-binary = "^2.8.5"
 starlette-prometheus = "^0.6.0"
 sentry_sdk = "^0.14.3"
+pydantic-sqlalchemy = "^0.0.4"
+python-dotenv = "^0.13.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.4.4"
@@ -41,6 +43,3 @@ black = "^19.10b0"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
-
-[tool.poetry.scripts]
-server = "python -m core.server:run --reload"

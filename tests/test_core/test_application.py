@@ -9,11 +9,7 @@ class TestApplication:
         assert resp.json() == {"message": "pong"}
 
     @pytest.mark.parametrize(
-        "source",
-        [
-            "/static/test.jpg",
-            "/media/test.jpg",
-        ],
+        "source", ["/static/test.jpg", "/media/test.jpg",],
     )
     def test_static_path(self, source, client):
         """Проверка существования и доступности папки static, media и вложенных папок"""

@@ -18,7 +18,7 @@ spec:
       serviceAccountName: simple-fastapi-account
       containers:
       - name: simple-fastapi
-        image: <container_image>
+        image: gcr.io/home-260209/simple-fastapi:1dafe16-dirty-f8ac6e
         livenessProbe:
           httpGet:
             path: /healthz

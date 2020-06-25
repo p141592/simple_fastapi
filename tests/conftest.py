@@ -8,8 +8,7 @@ environ["TESTING"] = "1"
 
 @pytest.fixture
 def client():
-    from core import get_app
-    from core.server.db import db
+    from core.application import get_app
 
     main(["--raiseerr", "upgrade", "head"])
 

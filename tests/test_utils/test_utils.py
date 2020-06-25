@@ -5,7 +5,7 @@ from utils.convert_env import convert
 
 
 def test_convert(tmpdir):
-    _p = Path('.').absolute() / "temp_file.txt"
+    _p = Path(".").absolute() / "temp_file.txt"
     _f = open(_p, "w")
     _f.write("WELCOME_STRING=Hello world\nPYTHONPATH=/opt/application\n")
     _f.close()
