@@ -1,5 +1,5 @@
-from core.server.db import db
-from core.server.db.base import BaseDBModel
+from core.db import db
+from core.db.base import BaseDBModel
 
 
 class User(BaseDBModel):
