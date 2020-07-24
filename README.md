@@ -24,7 +24,11 @@ https://www.python.org/downloads/release/python-382/ или `apt install python3
 - Sentry
 - [Google Cloud Run](https://cloud.google.com/run)
 
-TODO:
+Запуск: `make activate && make run`
+
+Миграции: `make makemigrations`, `make migrate`
+
+## TODO:
 
 - Добавить обработчики ошибок
 - Добавить логгирование
@@ -32,10 +36,6 @@ TODO:
 - Использование celery через rabbitmq
 - Кеш на keydb
 - Добавить возможность создавать текстовую документацию и хранить вместе с проектом
-
-Запуск: `make activate && make run`
-
-Миграции: `make makemigrations`, `make migrate`
 
 
 ## FAQ
@@ -52,5 +52,3 @@ TODO:
 - `make run`
 
 Если выхотите запустить проект из IDE, следует указать путь до `core/server/__main__.py`
-
-

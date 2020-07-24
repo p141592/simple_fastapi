@@ -48,8 +48,19 @@ run:
 push: build
 	docker push ${IMG}:${TAG}
 
+# TODO: Добавить генерацию манифеста
+
+# TODO: Добавить чтение логов из кубера попроекту
+
+# TODO: Добавить наблюдение за сервисом в кубере `-w`
+
 apply: push
-	echo kubectl patch deployment patch-demo --patch '{"spec": {"template": {"spec": {"containers": [{"name": "simple-fastapi","image": "${IMG}:${TAG}"}]}}}}'
+	# TODO: Добавить оттестированный способ патча
+	kubectl patch deployment patch-demo --patch '{"spec": {"template": {"spec": {"containers": [{"name": "simple-fastapi","image": "${IMG}:${TAG}"}]}}}}'
+
+# TODO: Сделать deploy
+
+# TODO: Добавить генерацию helm чарта
 
 # deploy
 gcloud-deploy: push
