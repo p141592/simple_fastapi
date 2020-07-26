@@ -1,5 +1,4 @@
-# TODO: Перейти на alpine
-FROM python:3.8
+FROM python:3.8 as build
 ENV PYTHONPATH /opt/application/
 ENV PATH /opt/application/:$PATH
 ENV PIP_DEFAULT_TIMEOUT=100 \
@@ -9,7 +8,9 @@ ENV PIP_DEFAULT_TIMEOUT=100 \
 
 WORKDIR /opt/application/
 
-# TODO: Добавить прокидывание deployment keys
+RUN mkdir -p /root/.ssh && chmod 0700 /root/.ssh
+COPY dp_keys/* /root/.ssh/
+RUN chmod 600 /root/.ssh/id_rsa && chmod 600 /root/.ssh/id_rsa.pub
 
 RUN pip install "poetry==$POETRY_VERSION"
 RUN poetry config virtualenvs.create false
@@ -17,8 +18,15 @@ COPY poetry.lock .
 COPY pyproject.toml  .
 RUN poetry install --no-dev --no-root
 
+FROM python:3.8-alpine as project
+COPY --from=build /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.8/site-packages
+
+RUN addgroup -S group && adduser -S user -G group
+USER user
+WORKDIR /opt/application/
+
+ENV PYTHONPATH /usr/local/lib/python3.8/site-packages:/opt/application/
+
 COPY project /opt/application/
 
-# TODO: Создать пользователя и оставлять докер под ним
-
-CMD python -m core.server
+CMD python -m core.application

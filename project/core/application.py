@@ -66,7 +66,7 @@ def get_app():
 
 if __name__ == "__main__":
     uvicorn.run(
-        "project.asgi:app",
+        "asgi:app",
         reload=settings.RELOAD,
         host=settings.HOST,
         port=settings.PORT,
