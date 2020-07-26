@@ -18,10 +18,10 @@ COPY poetry.lock .
 COPY pyproject.toml  .
 RUN poetry install --no-dev --no-root
 
-FROM python:3.8-alpine as project
-COPY --from=build /usr/local/lib/python3.8/site-packages /usr/local/lib/python3.8/site-packages
+FROM python:3.8-slim as project
+COPY --from=build /usr/local/lib/python3.8/site-packages/ /usr/local/lib/python3.8/site-packages
 
-RUN addgroup -S group && adduser -S user -G group
+RUN useradd -g users user
 USER user
 WORKDIR /opt/application/
 
