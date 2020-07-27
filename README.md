@@ -24,9 +24,6 @@ https://www.python.org/downloads/release/python-382/ или `apt install python3
 - Sentry
 - [Google Cloud Run](https://cloud.google.com/run)
 
-Запуск: `make activate && make run`
-
-Миграции: `make makemigrations`, `make migrate`
 
 ## TODO:
 
@@ -36,6 +33,8 @@ https://www.python.org/downloads/release/python-382/ или `apt install python3
 - Использование celery через rabbitmq
 - Кеш на keydb
 - Добавить возможность создавать текстовую документацию и хранить вместе с проектом
+- Подключение Jupyter для работы на живую
+- Ручка для получения покрытия тестам
 
 
 ## FAQ
