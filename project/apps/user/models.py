@@ -5,4 +5,4 @@ from core.db.base import BaseDBModel
 class User(BaseDBModel):
     """Модель для управления пользователями."""
 
-    name = db.Column(db.Unicode(), default="unnamed")
+    name = db.Column(db.Unicode())

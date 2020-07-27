@@ -43,7 +43,7 @@ https://www.python.org/downloads/release/python-382/ или `apt install python3
 Ошибка: `asyncpg.exceptions.InvalidCatalogNameError: database "gino" does not exist`
 
 Не создана база `gino`. Это база, указанная по умолчанию в проекте. 
-Все настройки проекта меняются в файле `project/server/settings.py`, так же в файле `.env` в корне проекта
+Все настройки проекта меняются в файле `project/settings.py`, так же в файле `.env` в корне проекта
 
 ## Запуск проекта локально:
 
@@ -51,4 +51,4 @@ https://www.python.org/downloads/release/python-382/ или `apt install python3
 - PYTHONPATH=$(pwd)/project
 - `make run`
 
-Если выхотите запустить проект из IDE, следует указать путь до `core/server/__main__.py`
+Если выхотите запустить проект из IDE, следует указать путь до `project/core/application.py`
