@@ -29,6 +29,7 @@ sentry_sdk = "^0.14.3"
 pydantic-sqlalchemy = "^0.0.4"
 python-dotenv = "^0.13.0"
 psycopg2-binary = "^2.8.5"
+mkdocs-material = "^5.5.0"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.4.4"
