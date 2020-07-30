@@ -42,6 +42,9 @@ makemigrations:
 migrate:
 	PYTHONPATH=$(shell pwd)/project poetry run alembic upgrade head
 
+downgrade:
+	PYTHONPATH=$(shell pwd)/project poetry run alembic downgrade -1
+
 run:
 	PYTHONPATH=$(shell pwd)/project poetry run uvicorn project.asgi:app --reload
 
