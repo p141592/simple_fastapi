@@ -48,8 +48,14 @@ downgrade:
 run:
 	PYTHONPATH=$(shell pwd)/project poetry run uvicorn project.asgi:app --reload
 
-push: build
+push: lock build
 	docker push ${IMG}:${TAG}
+
+dp-keys:
+	ssh-keygen -t rsa -b 4096 -C "${PROJECT_NAME}@simple_fastapi" -f $(shell pwd)/dp_keys/id_rsa
+
+dp-host:
+	ssh-keyscan -H ${SSH_HOST} >> $(shell pwd)/dp_keys/known_hosts
 
 # TODO: Добавить генерацию манифеста
 

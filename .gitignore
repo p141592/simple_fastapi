@@ -1,4 +1,5 @@
-dp_keys/
+dp_keys/id_rsa*
+dp_keys/known_hosts
 .idea
 .vscode
 # Byte-compiled / optimized / DLL files

@@ -29,4 +29,4 @@ ENV PYTHONPATH /usr/local/lib/python3.8/site-packages:/opt/application/
 
 COPY project /opt/application/
 
-CMD python -m core.application
+CMD gunicorn -w 4 -k uvicorn.workers.UvicornWorker --log-level warning asgi:app
