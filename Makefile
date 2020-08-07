@@ -65,8 +65,8 @@ dp-host:
 # TODO: Добавить чтение логов из кубера по проекту
 
 watch:
-	watch -n 1 kubectl -l app=${PROJECT_NAME} -A
-# TODO: Добавить наблюдение за сервисом в кубере `-w`
+	# Для этого нужно установить `watch`: `brew install watch`
+	watch -n 1 kubectl get all -l app=${PROJECT_NAME} -A
 
 k8s-apply: push
 	kubectl -n ${PROJECT_NAMESPACE} patch deployment ${DEPLOYMENT_NAME} --patch '{"spec": {"template": {"spec": {"containers": [{"name": "${PROJECT_NAME}","image": "${IMG}:${TAG}"}]}}}}'
