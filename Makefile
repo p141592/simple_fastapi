@@ -35,7 +35,6 @@ lock:
 linter:
 	PYTHONPATH=$(shell pwd)/project poetry run black .
 
-# pre production
 build: test linter
 	docker build -t ${IMG}:${TAG} .
 
@@ -56,13 +55,16 @@ push: lock build
 
 dp-keys:
 	ssh-keygen -t rsa -b 4096 -C "${PROJECT_NAME}@simple_fastapi" -f $(shell pwd)/dp_keys/id_rsa
+	chmod 600 $(shell pwd)/dp_keys/*
+	chmod 0700 $(shell pwd)/dp_keys/
 
 dp-host:
 	ssh-keyscan -H ${SSH_HOST} >> $(shell pwd)/dp_keys/known_hosts
 
 # TODO: Добавить генерацию манифеста
 
-# TODO: Добавить чтение логов из кубера по проекту
+logs:
+	k logs -f -l app=${PROJECT_NAME} --all-containers=true
 
 watch:
 	# Для этого нужно установить `watch`: `brew install watch`
@@ -75,7 +77,6 @@ k8s-apply: push
 
 # TODO: Добавить генерацию helm чарта
 
-# deploy
 gcloud-deploy: push
 	gcloud run deploy ${PROJECT_NAME} --image ${IMG}:${TAG} --memory ${MEMORY_LIMIT} --platform managed --set-env-vars ${ENV_VARIABLES}
 
