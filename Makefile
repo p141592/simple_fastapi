@@ -1,8 +1,11 @@
-# Registry where you want store your Docker images
 DOCKER_REGISTRY = gcr.io/${GCLOUD-PROJECT-ID}
 PORTS = 8080:8080
+
 PROJECT_NAME = simple-fastapi
 GCLOUD-PROJECT-ID = home-260209
+PROJECT_NAMESPACE = default
+DEPLOYMENT_NAME = ${PROJECT_NAME}
+
 ENV = dev
 MEMORY_LIMIT = 50M
 ENV_VARIABLES = $(shell ./utils/convert_env.py $(shell pwd)/.env)
@@ -53,13 +56,14 @@ push: build
 
 # TODO: Добавить генерацию манифеста
 
-# TODO: Добавить чтение логов из кубера попроекту
+# TODO: Добавить чтение логов из кубера по проекту
 
+watch:
+	watch -n 1 kubectl -l app=${PROJECT_NAME} -A
 # TODO: Добавить наблюдение за сервисом в кубере `-w`
 
-apply: push
-	# TODO: Добавить оттестированный способ патча
-	kubectl patch deployment patch-demo --patch '{"spec": {"template": {"spec": {"containers": [{"name": "simple-fastapi","image": "${IMG}:${TAG}"}]}}}}'
+k8s-apply: push
+	kubectl -n ${PROJECT_NAMESPACE} patch deployment ${DEPLOYMENT_NAME} --patch '{"spec": {"template": {"spec": {"containers": [{"name": "${PROJECT_NAME}","image": "${IMG}:${TAG}"}]}}}}'
 
 # TODO: Сделать deploy
 
