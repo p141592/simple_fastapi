@@ -47,6 +47,9 @@ migrate:
 downgrade:
 	PYTHONPATH=$(shell pwd)/project poetry run alembic downgrade -1
 
+fixtures:
+	# TODO: Загрузка фикстур из JSON
+
 run:
 	PYTHONPATH=$(shell pwd)/project poetry run uvicorn project.asgi:app --reload
 
@@ -61,8 +64,6 @@ dp-keys:
 dp-host:
 	ssh-keyscan -H ${SSH_HOST} >> $(shell pwd)/dp_keys/known_hosts
 
-# TODO: Добавить генерацию манифеста
-
 logs:
 	k logs -f -l app=${PROJECT_NAME} --all-containers=true
 
@@ -73,9 +74,8 @@ watch:
 k8s-apply: push
 	kubectl -n ${PROJECT_NAMESPACE} patch deployment ${DEPLOYMENT_NAME} --patch '{"spec": {"template": {"spec": {"containers": [{"name": "${PROJECT_NAME}","image": "${IMG}:${TAG}"}]}}}}'
 
-# TODO: Сделать deploy
-
-# TODO: Добавить генерацию helm чарта
+helm:
+	# TODO: Деплой helm чарта
 
 gcloud-deploy: push
 	gcloud run deploy ${PROJECT_NAME} --image ${IMG}:${TAG} --memory ${MEMORY_LIMIT} --platform managed --set-env-vars ${ENV_VARIABLES}
