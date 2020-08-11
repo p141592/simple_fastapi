@@ -27,7 +27,7 @@ activate:
 	poetry install --no-root
 
 test:
-	PYTHONPATH=$(shell pwd)/project poetry run pytest -vv ${TEST_CASE}
+	PYTHONPATH=$(shell pwd)/project poetry run pytest --cov=project --cov-report=term-missing --cov-report=xml -vv ${TEST_CASE}
 
 lock:
 	poetry lock
