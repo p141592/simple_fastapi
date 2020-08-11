@@ -13,6 +13,7 @@ from apps.routes import router
 from core.db import db
 from core.settings import settings
 from core.service import service_route
+from core.middlewares import Middleware
 
 _app = None
 
@@ -60,8 +61,10 @@ def get_app():
             sentry_sdk.init(dsn=settings.SENTRY_DSN)
             _app.add_middleware(SentryAsgiMiddleware)
         db.init_app(_app)
+        Middleware.init_app(_app)
 
     return _app
+
 
 
 if __name__ == "__main__":

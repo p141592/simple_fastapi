@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from pydantic import BaseSettings, DirectoryPath, SecretStr
+from pydantic import BaseSettings, DirectoryPath, SecretStr, FilePath
 
 BASE_DIR = Path(__file__).parent.parent
 
@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     TEMPLATES_DIR: DirectoryPath = BASE_DIR / "templates"
     MEDIA_PATH: DirectoryPath = BASE_DIR / "media"
     STATIC_PATH: DirectoryPath = BASE_DIR / "static"
+    LOGGING_CONFIG: FilePath = BASE_DIR / "core" / "logging.conf"
 
     DB_PASSWORD: SecretStr = "postgres"
     DB_DSN: str = f"postgresql://postgres:{DB_PASSWORD}@localhost:5432/postgres"
