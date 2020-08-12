@@ -43,7 +43,7 @@ https://www.python.org/downloads/release/python-382/ или `apt install python3
 Не создана база `gino`. Это база, указанная по умолчанию в проекте. 
 Все настройки проекта меняются в файле `project/settings.py`, так же в файле `.env` в корне проекта
 
-**Ошибка: ERROR: Package <имя пакета> requires a different Python: 3.7.7 not in '>=3.8,<4.0'
+**Ошибка: ERROR: Package <имя пакета> requires a different Python: 3.7.7 not in '>=3.8,<4.0'**
 
 Вы используете в проекте Python 3.7.7, а нужна другая версия
 
