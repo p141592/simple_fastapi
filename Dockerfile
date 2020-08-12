@@ -21,8 +21,9 @@ RUN poetry install --no-dev --no-root
 FROM python:3.8-slim as project
 COPY --from=build /usr/local/lib/python3.8/site-packages/ /usr/local/lib/python3.8/site-packages
 COPY --from=build /usr/local/bin/gunicorn /usr/local/bin/gunicorn
+COPY --from=build /usr/local/bin/jupyter /usr/local/bin/jupyter
 
-RUN useradd -g users user
+RUN useradd -g users -d /opt/application/ user
 USER user
 WORKDIR /opt/application/
 

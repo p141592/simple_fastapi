@@ -24,3 +24,10 @@ services:
     ports:
       - 5431:5432
     restart: unless-stopped
+
+  jupyter:
+    container_name: jupyter
+    build: .
+    command: jupyter notebook --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8888
+    ports:
+    - 8888:8888

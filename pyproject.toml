@@ -30,6 +30,8 @@ pydantic-sqlalchemy = "^0.0.4"
 python-dotenv = "^0.13.0"
 psycopg2-binary = "^2.8.5"
 gunicorn = "^20.0.4"
+jupyter = "^1.0.0"
+jupyterlab = "^2.2.4"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.4.4"
