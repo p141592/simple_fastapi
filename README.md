@@ -34,15 +34,24 @@ https://www.python.org/downloads/release/python-382/ или `apt install python3
 - Кеш на keydb
 - Добавить возможность создавать текстовую документацию и хранить вместе с проектом
 - Подключение Jupyter для работы на живую
-- Ручка для получения покрытия тестам
 
 
 ## FAQ
 
-Ошибка: `asyncpg.exceptions.InvalidCatalogNameError: database "gino" does not exist`
+**Ошибка: `asyncpg.exceptions.InvalidCatalogNameError: database "gino" does not exist`**
 
 Не создана база `gino`. Это база, указанная по умолчанию в проекте. 
 Все настройки проекта меняются в файле `project/settings.py`, так же в файле `.env` в корне проекта
+
+**Ошибка: ERROR: Package <имя пакета> requires a different Python: 3.7.7 not in '>=3.8,<4.0'
+
+Вы используете в проекте Python 3.7.7, а нужна другая версия
+
+Чтобы это проверить: `poetry debug`
+
+Чтобы перейти на нужную версию:
+- Поставьте нужную версию с офицального сайта
+- Привяжите эту версию к poetry: `poetry env use 3.8`
 
 ## Запуск проекта локально:
 
