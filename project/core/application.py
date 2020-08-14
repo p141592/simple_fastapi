@@ -11,9 +11,9 @@ from starlette_prometheus import PrometheusMiddleware
 
 from apps.routes import router
 from core.db import db
+from core.middlewares import middlewares
 from core.settings import settings
 from core.service import service_route
-from core.middlewares import Middleware
 
 _app = None
 
@@ -31,6 +31,7 @@ class CustomApp(FastAPI):
     templates = Jinja2Templates(directory=settings.TEMPLATES_DIR)
 
 
+@middlewares
 def get_app():
     global _app
     if not _app:
@@ -60,11 +61,10 @@ def get_app():
         if settings.SENTRY_DSN:
             sentry_sdk.init(dsn=settings.SENTRY_DSN)
             _app.add_middleware(SentryAsgiMiddleware)
+
         db.init_app(_app)
-        Middleware.init_app(_app)
 
     return _app
-
 
 
 if __name__ == "__main__":
