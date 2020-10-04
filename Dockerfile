@@ -29,5 +29,5 @@ WORKDIR /opt/application/
 ENV PYTHONPATH /usr/local/lib/python3.8/site-packages:/opt/application/
 
 COPY project /opt/application/
-
-CMD gunicorn -w 4 -k uvicorn.workers.UvicornWorker --log-level warning asgi:app
+COPY gunicorn.conf.py /opt/application/
+CMD gunicorn -c gunicorn.conf.py -b 0.0.0.0:8000 --log-level debug --access-logfile "-" --error-logfile "-" asgi:app
