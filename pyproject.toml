@@ -18,7 +18,7 @@ tornado = "^6.0.4"
 jinja2 = "^2.11.1"
 pytils = "^0.3"
 pytz = "^2019.3"
-Pillow = "^7.1.1"
+Pillow = "^8.3.3"
 lxml = "^4.5.0"
 gino_starlette = "^0.1.1"
 gino = {version = "^1.0rc4", extras = ["gino_starlette"], allow-prereleases = true}
