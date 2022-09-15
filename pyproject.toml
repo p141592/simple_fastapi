@@ -19,7 +19,7 @@ jinja2 = "^2.11.1"
 pytils = "^0.3"
 pytz = "^2019.3"
 Pillow = "^9.0.1"
-lxml = "^4.5.0"
+lxml = "^4.9.1"
 gino_starlette = "^0.1.1"
 gino = {version = "^1.0rc4", extras = ["gino_starlette"], allow-prereleases = true}
 alembic = "^1.4.2"
