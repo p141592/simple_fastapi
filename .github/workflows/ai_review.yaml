@@ -1,0 +1,40 @@
+name: Ai Code Review
+
+on: 
+    pull_request: 
+        branches: 
+            - master
+
+jobs:
+    ai_review:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout PR Code
+              uses: actions/checkout@v3
+              with:
+                fetch-depth: 0
+            
+            - name: Get diff
+              id: diff
+              run: |
+                echo "DIFF<<EOF" >> $GITHUB_ENV
+                git fetch origin master
+                git diff origin/master...HEAD > diff.txt
+                cat diff.txt >> $GITHUB_ENV
+                echo "EOF" >> $GITHUB_ENV
+            - name: AI-review simulation
+              id: ai
+              run: |
+                echo "REVIEW=Вот что я думаю об этих изменениях (заглушка для AI)..." >> $GITHUB_ENV
+ 
+            - name: Leave comment on PR
+              uses: peter-evans/create-or-update-comment@v4
+              with:
+                token: ${{ secrets.GITHUB_TOKEN }}
+                issue-number: ${{ github.event.pull_request.number }}
+                body: |
+                    🤖 **AI Code Review**
+
+                    ${{ env.REVIEW }}
+
