@@ -21,8 +21,9 @@ jobs:
                 echo "DIFF<<EOF" >> $GITHUB_ENV
                 git fetch origin master
                 git diff origin/master...HEAD > diff.txt
-                cat diff.txt >> $GITHUB_ENV
-                echo "EOF" >> $GITHUB_ENV
+                cat diff.txt 
+                # >> $GITHUB_ENV
+                # echo "EOF" >> $GITHUB_ENV
             - name: AI-review simulation
               id: ai
               run: |
