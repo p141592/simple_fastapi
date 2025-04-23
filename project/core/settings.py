@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     DB_USE_CONNECTION_FOR_REQUEST: bool = True
     DB_RETRY_LIMIT: int = 1
     DB_RETRY_INTERVAL: int = 1
+    SOME_KEY: int = 0
 
     class Config:
         env_file = BASE_DIR / ".env"
