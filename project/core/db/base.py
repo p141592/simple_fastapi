@@ -1,62 +1,39 @@
-import sqlalchemy as s
-from pydantic_sqlalchemy import sqlalchemy_to_pydantic
+from collections.abc import Generator
 
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declared_attr
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.util.compat import contextmanager
-from pydantic import BaseConfig
+from sqlalchemy import Integer, MetaData, create_engine
+from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
 
 from core.settings import settings
 
-engine = create_engine(
-    settings.DB_DSN, echo=True, connect_args={"check_same_thread": False}
-)
+NAMING_CONVENTION = {
+    "ix": "ix_%(column_0_label)s",
+    "uq": "uq_%(table_name)s_%(column_0_name)s",
+    "ck": "ck_%(table_name)s_%(constraint_name)s",
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+    "pk": "pk_%(table_name)s",
+}
 
-Base = declarative_base()
-
-
-@contextmanager
-def session_scope():
-    """Provide a transactional scope around a series of operations."""
-    session = sessionmaker(bind=engine)()
-    try:
-        yield session
-        session.commit()
-    except:
-        session.rollback()
-        raise
-    finally:
-        session.close()
+metadata = MetaData(naming_convention=NAMING_CONVENTION)
+engine = create_engine(settings.DB_DSN, echo=settings.DB_ECHO, future=True)
+SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
 
 
-class PydanticConfig(BaseConfig):
-    orm_mode = True
+class Base(DeclarativeBase):
+    metadata = metadata
 
 
 class BaseDBModel(Base):
     __abstract__ = True
-    _model = None
-    readable_field = "id"
 
-    @declared_attr
-    def __tablename__(cls) -> str:
-        return cls.__name__.lower()
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
 
-    id = s.Column(s.Integer, primary_key=True, unique=True, autoincrement=True)
-
-    @classmethod
-    def model(cls, **kwargs):
-        return sqlalchemy_to_pydantic(cls, config=PydanticConfig, **kwargs)
-
-    def __repr__(self):
-        return f"<{self.__class__.__name__}: {getattr(self, self.readable_field)}>"
+    def to_dict(self) -> dict[str, object]:
+        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
 
 
-class BaseDBHandbook(BaseDBModel):
-    __abstract__ = True
-    readable_field = "title"
-
-    title = s.Column(s.String)
-    key = s.Column(s.String, nullable=False, unique=True)
+def get_db_session() -> Generator[Session, None, None]:
+    session = SessionLocal()
+    try:
+        yield session
+    finally:
+        session.close()

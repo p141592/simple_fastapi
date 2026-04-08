@@ -51,7 +51,7 @@ fixtures:
 	# TODO: Загрузка фикстур из JSON
 
 run:
-	PYTHONPATH=$(shell pwd)/project poetry run uvicorn project.asgi:app --reload
+	PYTHONPATH=$(shell pwd)/project poetry run uvicorn project.asgi:app --host 0.0.0.0 --port 8000
 
 push: lock build
 	docker push ${IMG}:${TAG}

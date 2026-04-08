@@ -1,1 +1,1 @@
-from . import user
+__all__ = []

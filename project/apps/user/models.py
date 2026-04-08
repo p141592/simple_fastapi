@@ -1,8 +1,10 @@
-from core.db import db
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column
+
 from core.db.base import BaseDBModel
 
 
 class User(BaseDBModel):
-    """Модель для управления пользователями."""
+    __tablename__ = "users"
 
-    name = db.Column(db.Unicode())
+    name: Mapped[str] = mapped_column(String(255), nullable=False)

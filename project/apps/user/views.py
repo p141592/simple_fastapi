@@ -1,25 +1,38 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy.orm import Session
 
-from .models import User
-from .serializers import UserModel
+from apps.user.models import User
+from apps.user.serializers import UserCreate
+from apps.user.serializers import UserRead
+from core.db import get_db_session
 
 v1 = APIRouter()
 
 
-@v1.get("/users/{uid}")
-async def get_user(uid: int):
-    user = await User.get_or_404(uid)
-    return user.to_dict()
+@v1.get("/users/{uid}", response_model=UserRead)
+def get_user(uid: int, db_session: Session = Depends(get_db_session)) -> User:
+    user = db_session.get(User, uid)
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    return user
 
 
-@v1.post("/users")
-async def add_user(user: UserModel):
-    rv = await User.create(name=user.name)
-    return rv.to_dict()
+@v1.post("/users", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+def add_user(user: UserCreate, db_session: Session = Depends(get_db_session)) -> User:
+    instance = User(name=user.name)
+    db_session.add(instance)
+    db_session.commit()
+    db_session.refresh(instance)
+    return instance
 
 
 @v1.delete("/users/{uid}")
-async def delete_user(uid: int):
-    user = await User.get_or_404(uid)
-    await user.delete()
-    return dict(id=uid)
+def delete_user(uid: int, db_session: Session = Depends(get_db_session)) -> dict[str, int]:
+    user = db_session.get(User, uid)
+    if user is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
+    db_session.delete(user)
+    db_session.commit()
+    return {"id": uid}
