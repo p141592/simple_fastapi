@@ -1,15 +1,10 @@
-import os
-from pathlib import Path
-
 from utils.convert_env import convert
 
 
-def test_convert(tmpdir):
-    _p = Path(".").absolute() / "temp_file.txt"
-    _f = open(_p, "w")
-    _f.write("WELCOME_STRING=Hello world\nPYTHONPATH=/opt/application\n")
-    _f.close()
+def test_convert(tmp_path):
+    env_file = tmp_path / "temp_file.txt"
+    env_file.write_text("WELCOME_STRING=Hello world\nPYTHONPATH=/opt/application\n")
 
-    result = convert(_p)
+    result = convert(env_file)
+
     assert result == 'WELCOME_STRING="Hello world",PYTHONPATH="/opt/application"'
-    os.remove(_p)
