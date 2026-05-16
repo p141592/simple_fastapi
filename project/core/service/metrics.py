@@ -1,7 +1,12 @@
 import os
 
 from fastapi import APIRouter
-from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, CollectorRegistry, generate_latest
+from prometheus_client import (
+    CONTENT_TYPE_LATEST,
+    REGISTRY,
+    CollectorRegistry,
+    generate_latest,
+)
 from prometheus_client.multiprocess import MultiProcessCollector
 from starlette.requests import Request
 from starlette.responses import Response

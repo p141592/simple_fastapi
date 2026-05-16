@@ -1,9 +1,8 @@
 from collections.abc import Generator
 
+from core.settings import settings
 from sqlalchemy import Integer, MetaData, create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, sessionmaker
-
-from core.settings import settings
 
 NAMING_CONVENTION = {
     "ix": "ix_%(column_0_label)s",
@@ -15,7 +14,9 @@ NAMING_CONVENTION = {
 
 metadata = MetaData(naming_convention=NAMING_CONVENTION)
 engine = create_engine(settings.DB_DSN, echo=settings.DB_ECHO, future=True)
-SessionLocal = sessionmaker(bind=engine, autoflush=False, autocommit=False, expire_on_commit=False)
+SessionLocal = sessionmaker(
+    bind=engine, autoflush=False, autocommit=False, expire_on_commit=False
+)
 
 
 class Base(DeclarativeBase):
@@ -28,7 +29,9 @@ class BaseDBModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
 
     def to_dict(self) -> dict[str, object]:
-        return {column.name: getattr(self, column.name) for column in self.__table__.columns}
+        return {
+            column.name: getattr(self, column.name) for column in self.__table__.columns
+        }
 
 
 def get_db_session() -> Generator[Session, None, None]:

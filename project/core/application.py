@@ -1,17 +1,17 @@
+from contextlib import asynccontextmanager
+
 import sentry_sdk
 import uvicorn
-from contextlib import asynccontextmanager
+from apps.routes import router
+from core.db import run_migrations
+from core.service import service_route
+from core.settings import settings
 from fastapi import FastAPI
 from fastapi.templating import Jinja2Templates
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.staticfiles import StaticFiles
-
-from apps.routes import router
-from core.db import run_migrations
-from core.settings import settings
-from core.service import service_route
 
 app_instance = None
 

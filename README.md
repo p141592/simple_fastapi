@@ -1,9 +1,9 @@
 # Simple FastAPI
 
 <p align="center">
-  <img src="https://cdn.simpleicons.org/fastapi/009688" alt="FastAPI" height="48">
-  &nbsp;&nbsp;&nbsp;
-  <img src="https://cdn.simpleicons.org/sqlalchemy/D71F00" alt="SQLAlchemy" height="48">
+  <img src="docs/assets/fastapi-logo.svg" alt="FastAPI" height="88">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/assets/sqlalchemy-logo.png" alt="SQLAlchemy" height="88">
 </p>
 
 <p align="center">
@@ -121,7 +121,8 @@ curl -X DELETE http://localhost:8000/user/v1/users/1
 
 ```bash
 make test          # pytest + coverage
-make linter        # black .
+make linter        # ruff check + format check
+make format        # ruff check --fix + format
 make makemigrations
 make migrate
 make downgrade

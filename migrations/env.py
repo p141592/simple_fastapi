@@ -1,11 +1,10 @@
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import engine_from_config, pool
-
 from apps.user.models import User
 from core.db import Base
 from core.settings import settings
+from sqlalchemy import engine_from_config, pool
 
 del User
 

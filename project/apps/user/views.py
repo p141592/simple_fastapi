@@ -1,10 +1,8 @@
+from apps.user.models import User
+from apps.user.serializers import UserCreate, UserRead
+from core.db import get_db_session
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-
-from apps.user.models import User
-from apps.user.serializers import UserCreate
-from apps.user.serializers import UserRead
-from core.db import get_db_session
 
 v1 = APIRouter()
 
@@ -13,7 +11,9 @@ v1 = APIRouter()
 def get_user(uid: int, db_session: Session = Depends(get_db_session)) -> User:
     user = db_session.get(User, uid)
     if user is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
 
     return user
 
@@ -28,10 +28,14 @@ def add_user(user: UserCreate, db_session: Session = Depends(get_db_session)) ->
 
 
 @v1.delete("/users/{uid}")
-def delete_user(uid: int, db_session: Session = Depends(get_db_session)) -> dict[str, int]:
+def delete_user(
+    uid: int, db_session: Session = Depends(get_db_session)
+) -> dict[str, int]:
     user = db_session.get(User, uid)
     if user is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
+        )
 
     db_session.delete(user)
     db_session.commit()

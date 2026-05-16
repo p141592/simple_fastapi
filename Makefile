@@ -33,7 +33,12 @@ lock:
 	poetry lock
 
 linter:
-	PYTHONPATH=$(shell pwd)/project poetry run black .
+	PYTHONPATH=$(shell pwd)/project poetry run ruff check .
+	PYTHONPATH=$(shell pwd)/project poetry run ruff format --check .
+
+format:
+	PYTHONPATH=$(shell pwd)/project poetry run ruff check --fix .
+	PYTHONPATH=$(shell pwd)/project poetry run ruff format .
 
 build: test linter
 	docker build -t ${IMG}:${TAG} .

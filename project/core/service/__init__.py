@@ -1,7 +1,6 @@
-from fastapi import APIRouter
-
 from core.service.healthz import route as healthz
 from core.service.metrics import route as metrics
+from fastapi import APIRouter
 
 service_route = APIRouter()
 
