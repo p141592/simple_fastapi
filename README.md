@@ -1,63 +1,204 @@
-# Simple FastAPI project
+# Simple FastAPI
 
-Пример проекта на [fastapi](https://github.com/tiangolo/fastapi)
+<p align="center">
+  <img src="https://cdn.simpleicons.org/fastapi/009688" alt="FastAPI" height="48">
+  &nbsp;&nbsp;&nbsp;
+  <img src="https://cdn.simpleicons.org/sqlalchemy/D71F00" alt="SQLAlchemy" height="48">
+</p>
 
-**Для работы требуется Python 3.8. Достаточно его просто установить в систему, при запуске poetry сам найдет 
-исполняемый файл**
+<p align="center">
+  <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-0.135.3-009688?logo=fastapi&logoColor=white" alt="FastAPI 0.135.3"></a>
+  <a href="https://www.sqlalchemy.org/"><img src="https://img.shields.io/badge/SQLAlchemy-2.0.49-D71F00?logo=sqlalchemy&logoColor=white" alt="SQLAlchemy 2.0.49"></a>
+  <img src="https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white" alt="Python 3.11+">
+  <img src="https://img.shields.io/badge/tests-pytest-0A9EDC?logo=pytest&logoColor=white" alt="pytest">
+  <img src="https://img.shields.io/badge/license-MIT-111827" alt="MIT license">
+</p>
 
-https://www.python.org/downloads/release/python-382/ или `apt install python3.8`
+Лаконичный backend-шаблон на FastAPI для сервисов, которым сразу нужны база данных,
+миграции, healthcheck, метрики, статические файлы и понятная структура проекта.
 
-![](docs/index.png)
+![FastAPI application preview](docs/index.png)
 
-Стек:
+## Что внутри
 
-- [fastapi](https://github.com/tiangolo/fastapi)
-- [gino](https://github.com/python-gino/gino) + [sqlalchemy](https://www.sqlalchemy.org/)
-- [alembic](https://alembic.sqlalchemy.org/en/latest/)
-- [poetry](https://github.com/python-poetry/poetry)
-- postgresql
-- docker
+- FastAPI-приложение с единым factory-подходом в `project/core/application.py`
+- SQLAlchemy 2.0 и Alembic для схемы базы данных
+- PostgreSQL как основное хранилище
+- Pydantic v2 и `pydantic-settings` для схем и конфигурации
+- Prometheus endpoint `/metrics`
+- Healthcheck endpoint `/healthz`
+- Sentry middleware при наличии `SENTRY_DSN`
+- Раздача `/static` и `/media`
+- Пример CRUD API для пользователей
+- Pytest, coverage и Black через Makefile
+- Docker, Kubernetes и Google Cloud Run заготовки
 
-Интеграции:
+## Структура
 
-- Сбор метрик Prometheus
-- Sentry
-- [Google Cloud Run](https://cloud.google.com/run)
+```text
+project/
+  apps/                 # Доменные модули и HTTP-роуты
+    user/               # Пример user CRUD
+  core/                 # Настройки, приложение, база, service endpoints
+  static/               # Статические файлы
+  media/                # Пользовательские/медийные файлы
+  templates/            # Jinja2 templates
+migrations/             # Alembic migrations
+tests/                  # Pytest suite
+utils/                  # Вспомогательные скрипты
+```
 
+## Требования
 
-## TODO:
+- Python `>=3.11,<3.15`
+- Poetry
+- PostgreSQL
 
-- Добавить обработчики ошибок
-- Добавить логгирование
-- JWT авторизация пользователя
-- Использование celery через rabbitmq
-- Кеш на keydb
-- Добавить возможность создавать текстовую документацию и хранить вместе с проектом
-- Подключение Jupyter для работы на живую
-- Добавить ожидание запуска базы перед стартом сервиса
+По умолчанию приложение ждёт базу на:
 
+```text
+postgresql://postgres:postgres@localhost:5431/postgres
+```
+
+## Быстрый старт
+
+```bash
+make activate
+make migrate
+make run
+```
+
+После запуска:
+
+- API: `http://localhost:8000`
+- Swagger UI: `http://localhost:8000/docs`
+- Healthcheck: `http://localhost:8000/healthz`
+- Metrics: `http://localhost:8000/metrics`
+
+Если база не запущена локально, поднимите PostgreSQL через Docker Compose:
+
+```bash
+docker compose up -d db
+```
+
+## Конфигурация
+
+Настройки читаются из `.env` в корне репозитория и переменных окружения.
+
+| Переменная | Значение по умолчанию | Назначение |
+| --- | --- | --- |
+| `HOST` | `0.0.0.0` | Адрес HTTP-сервера |
+| `PORT` | `8000` | Порт приложения |
+| `LOG_LEVEL` | `debug` | Уровень логирования Uvicorn |
+| `RELOAD` | `False` | Автоперезапуск в dev-режиме |
+| `SENTRY_DSN` | `None` | DSN для Sentry |
+| `DB_DSN` | `postgresql://postgres:postgres@localhost:5431/postgres` | Подключение к PostgreSQL |
+| `DB_ECHO` | `False` | SQLAlchemy query logging |
+
+## API пример
+
+Создать пользователя:
+
+```bash
+curl -X POST http://localhost:8000/user/v1/users \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Alice"}'
+```
+
+Получить пользователя:
+
+```bash
+curl http://localhost:8000/user/v1/users/1
+```
+
+Удалить пользователя:
+
+```bash
+curl -X DELETE http://localhost:8000/user/v1/users/1
+```
+
+## Команды разработки
+
+```bash
+make test          # pytest + coverage
+make linter        # black .
+make makemigrations
+make migrate
+make downgrade
+make build         # test + linter + docker build
+```
+
+## Миграции
+
+Создать новую миграцию:
+
+```bash
+make makemigrations
+```
+
+Применить все миграции:
+
+```bash
+make migrate
+```
+
+Откатить последнюю:
+
+```bash
+make downgrade
+```
+
+## Тесты
+
+```bash
+make test
+```
+
+Тестовый набор проверяет:
+
+- `/healthz`
+- `/metrics`
+- раздачу static/media
+- базовый user CRUD
+- Alembic migration runner
+- utility-функции
+
+## Деплой
+
+В репозитории есть заготовки для контейнерного запуска и облачного деплоя:
+
+- `Dockerfile`
+- `docker-compose.yml`
+- `k8s/deployment.yaml`
+- `k8s/service-account.yaml`
+- `make gcloud-deploy`
+
+Перед production-запуском проверьте переменные окружения, доступность PostgreSQL,
+Sentry DSN и актуальность Docker runtime под версию Python из `pyproject.toml`.
 
 ## FAQ
 
-**Ошибка: `asyncpg.exceptions.InvalidCatalogNameError: database "gino" does not exist`**
+**Ошибка подключения к базе или сообщение, что database не существует**
 
-Не создана база `gino`. Это база, указанная по умолчанию в проекте. 
-Все настройки проекта меняются в файле `project/settings.py`, так же в файле `.env` в корне проекта
+Проверьте, что PostgreSQL запущен, база существует, а `DB_DSN` указывает на правильный
+host, port, user, password и database.
 
-**Ошибка: ERROR: Package <имя пакета> requires a different Python: 3.7.7 not in '>=3.8,<4.0'**
+**Poetry выбрал не ту версию Python**
 
-Вы используете в проекте Python 3.7.7, а нужна другая версия
+Проверьте окружение:
 
-Чтобы это проверить: `poetry debug`
+```bash
+poetry env info
+```
 
-Чтобы перейти на нужную версию:
-- Поставьте нужную версию с офицального сайта
-- Привяжите эту версию к poetry: `poetry env use 3.8`
+Выберите подходящий интерпретатор:
 
-## Запуск проекта локально:
+```bash
+poetry env use 3.11
+```
 
-- `poetry install` 
-- PYTHONPATH=$(pwd)/project
-- `make run`
+**Приложение запускается из IDE, но не видит модули**
 
-Если выхотите запустить проект из IDE, следует указать путь до `project/core/application.py`
+Укажите `PYTHONPATH` на папку `project` или используйте Makefile-команды. Для ручного
+запуска entrypoint находится в `project/core/application.py`, ASGI-приложение — в
+`project/asgi.py`.
